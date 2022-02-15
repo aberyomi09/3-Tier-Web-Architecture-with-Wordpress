@@ -39,8 +39,11 @@ Again, the chief benefit of three-tier architecture its logical and physical sep
 **Other benefits (compared to single- or two-tier architecture) include:**
 
 Faster development: Because each tier can be developed simultaneously by different teams, an organization can bring the application to market faster, and programmers can use the latest and best languages and tools for each tier.
+
 Improved scalability: Any tier can be scaled independently of the others as needed.
+
 Improved reliability: An outage in one tier is less likely to impact the availability or performance of the other tiers.
+
 Improved security: Because the presentation tier and data tier can't communicate directly, a well-designed application tier can function as a sort of internal firewall, preventing SQL injections and other malicious exploits.
 
 **Three-tier application in web development**
