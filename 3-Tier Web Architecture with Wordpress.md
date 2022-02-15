@@ -27,7 +27,9 @@ Generally, web, or mobile solutions are implemented based on what is called the
 **Three-tier Architecture** is a client-server software architecture pattern
 that comprise of 3 separate layers.
 
-\*\*3-tier image
+
+![three-tier-architecture](https://user-images.githubusercontent.com/66855448/154006407-ca0e87d7-e99e-4633-a611-1eca3be7582b.png)
+
 
 1.  **Presentation Layer** (PL): This is the user interface such as the client
     server or browser on your laptop.
@@ -64,7 +66,7 @@ LAUNCH AN **EC2 INSTANCE THAT WILL SERVE AS “WEB SERVER”.**
 1.  Launch an EC2 instance that will serve as "Web Server". Create 3 volumes in
     the same AZ as your Web Server EC2, each of 10 GiB.
 
-\*\* ATTACH VOLUME IMAGE
+![Attach Volume](https://user-images.githubusercontent.com/66855448/154006497-c64fca86-f283-4255-ba37-9abf21691298.PNG)
 
 1.  Attach all three volumes one by one to your Web Server EC2 instance
 
@@ -75,7 +77,7 @@ LAUNCH AN **EC2 INSTANCE THAT WILL SERVE AS “WEB SERVER”.**
     /dev/ directory. Inspect it with ls /dev/ and make sure you see all 3 newly
     created block devices there – their names will likely be xvdf, xvdh, xvdg.
 
-LSBLK IMAGE
+![lsblk](https://user-images.githubusercontent.com/66855448/154006560-9772eeb3-06ae-4297-be87-12243f68efb6.PNG)
 
 1.  Use df -h command to see all mounts and free space on your server
 
@@ -83,23 +85,23 @@ LSBLK IMAGE
 
 *\#sudo fdisk /dev/xvdf*
 
-*Fdisk Image*
+![sudo fdisk xvdf](https://user-images.githubusercontent.com/66855448/154006815-e6477138-1a1c-499d-a8ec-2a77a471a5e7.PNG)
 
 1.  Use lsblk utility to view the newly configured partition on each of the 3
     disks.
 
-Lsblk image
+![fdisk partition](https://user-images.githubusercontent.com/66855448/154006691-3ab652a2-7b7f-4b83-bdfa-746bcaefe309.PNG)
 
 1.  Install [lvm2](https://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux))
     package using *\#sudo yum install lvm2*. Run *\#sudo lvmdiskscan* command to
     check for available partitions.
 
-Lvmdiskscan image
+![lvmdiskscan](https://user-images.githubusercontent.com/66855448/154006840-d4eb32a1-a12f-4e25-9905-23dca3071670.PNG)
 
 1.  Use [*\#pvcreate*](https://linux.die.net/man/8/pvcreate) utility to mark
     each of 3 disks as physical volumes (PVs) to be used by LVM
 
-Pvcreate image
+![PVcreate](https://user-images.githubusercontent.com/66855448/154006856-09fd6a3e-58f3-40fc-8874-5a9add5ec5e4.PNG)
 
 1.  Verify that your Physical volume has been created successfully by running
     *\#sudo pvs*
@@ -121,7 +123,7 @@ Pvcreate image
 
 *\#sudo lvcreate -n logs-lv –l 100%FREE webdata-vg*
 
-Lvcreate image
+![lvcreate](https://user-images.githubusercontent.com/66855448/154006879-0cf5f1d4-1b13-4b0d-b5fb-36b98c0181e3.PNG)
 
 1.  Verify that your Logical Volume has been created successfully by running
     *\#sudo lvs*
@@ -133,7 +135,7 @@ Lvcreate image
 
 *\#sudo mkfs -t ext4 /dev/webdata-vg/logs-lv*
 
-Mkfs image
+![mkfs](https://user-images.githubusercontent.com/66855448/154006896-235cfb45-6a12-4afc-9f48-34559ce67426.PNG)
 
 1.  Create **/var/www/html** directory to store website files
 
@@ -174,7 +176,7 @@ the device path or a label can be created to update the file.
 
 *\#sudo vi /etc/fstab*
 
-Fstab image
+![fstab](https://user-images.githubusercontent.com/66855448/154006932-a794de44-0a7d-4042-8464-0cbc92a88e04.PNG)
 
 Test the configuration and reload the daemon
 
@@ -208,7 +210,7 @@ ONLY (20gb i.e. 2 10gb LVs) and mount it to /db directory instead of
 
 *\#sudo systemctl status httpd*
 
-Status httpd image
+![status httpd](https://user-images.githubusercontent.com/66855448/154006980-835714c4-9393-440c-a02e-a2d7989d490b.PNG)
 
 1.  To install PHP and it’s depemdencies
 
@@ -234,7 +236,7 @@ Status httpd image
 
     *\#setsebool -P httpd_execmem 1*
 
-Status php image
+![Status php](https://user-images.githubusercontent.com/66855448/154007048-a06a5aa4-a447-49ce-ae74-9849c812d3f9.PNG)
 
 1.  Restart Apache
 
@@ -258,11 +260,11 @@ Status php image
 
 1.  Configure SELinux Policies
 
-    \#sudo chown -R apache:apache /var/www/html/wordpress
+    _\#sudo chown -R apache:apache /var/www/html/wordpress_
 
-    \#sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R
+    _\#sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R_
 
-    \#sudo setsebool -P httpd_can_network_connect=1
+    _\#sudo setsebool -P httpd_can_network_connect=1_
 
 #### Step 4 — Install MySQL on your DB Server EC2
 
@@ -280,7 +282,7 @@ running even after reboot:
 
 *\#sudo systemctl status mysqld*
 
-*Status mysql image*
+![status mysql](https://user-images.githubusercontent.com/66855448/154007113-14c15293-7aaa-43c5-9a4d-c7d0dda45745.PNG)
 
 #### Step 5 — Configure DB to work with WordPress
 
@@ -312,7 +314,7 @@ Server’s IP address, so in the Inbound Rule configuration specify source as /3
 
 *\#sudo mysql -u admin -p -h \<DB-Server-Private-IP-address\>*
 
-*Mysql –u image*
+![Mysql client -u](https://user-images.githubusercontent.com/66855448/154007147-bdd17062-b48a-4c90-8f53-0fa9cd50f3ed.PNG)
 
 1.  Verify if you can successfully execute SHOW DATABASES; command and see a
     list of existing databases.
@@ -325,16 +327,19 @@ Server’s IP address, so in the Inbound Rule configuration specify source as /3
 4.  Try to access from your browser the link to your WordPress
     http://\<Web-Server-Public-IP-Address\>/wordpress/
 
-Install wordpress image
+![Install Wordpress](https://user-images.githubusercontent.com/66855448/154007182-64699dfc-0fc2-4e9c-9e2f-0eea2c7f861b.PNG)
 
 Fill out your DB credentials:
 
-Final Image
+![Final Wordpress](https://user-images.githubusercontent.com/66855448/154007204-62c9aa61-c7ba-4894-b7d4-1ffdec62d509.PNG)
+
+If you see this message – it means your WordPress has successfully connected to
+your remote MySQL database
 
 #### CONGRATULATIONS!
+
+![You did it](https://user-images.githubusercontent.com/66855448/154007228-6da46326-30ca-4c67-b752-f721b6b0c8ce.gif)
 
 We have learned how to configure Linux storage susbystem and have also deployed
 a full-scale Web Solution using WordPress CMS and MySQL RDBMS!
 
-If you see this message – it means your WordPress has successfully connected to
-your remote MySQL database
